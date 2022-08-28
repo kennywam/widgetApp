@@ -3,42 +3,47 @@ import axios from "axios";
  
 const Search = () => {
 
-    const [term, setTerm] =useState('ReactJS')
+    const [term, setTerm] =useState('ReactJs')
+    const [debouncedTerm, setDebouncedTerm] = useState(term)
     const [results, setResults] = useState([])
 
-  //  console.log(results)
+    /*Fixing muliple requests from api by creating 2 useEffect hooks*/
 
-    useEffect(() => {
-        const search = async () => {
+    useEffect(() => {//first hook 
+        const timerId = setTimeout(() => {
+            setDebouncedTerm(term)
+        }, 1000)
+
+        return () => {
+            clearTimeout(timerId)
+        }
+    },[term])//Whenever term changes, the timer is cancelled and new timer set.
+            //deBouncedTerm updates if the time elapses without term changing
+
+
+
+    useEffect(() => {//second hook
+        const search = async () => 
+        {
             const {data} = await axios.get("https://en.wikipedia.org/w/api.php", {
-                    params:{
+                    params:
+                    {
                         action: 'query',
                         list: 'search',
                         origin: '*',
                         format: 'json',
-                        srsearch: term
+                        srsearch: debouncedTerm//when user changes term, it means the debouncedTerm has
+                                            //to be updated for this request to be made
                     }
                 })
 
                 setResults(data.query.search)
-            }
+        }
 
-            if (term && !results.length){
-                search()
-            } else {
-                const timeoutId = setTimeout(() =>{  
-                    if(term){
-                        search()
-                    
-                }}, 1000)
+        search()
 
-                return () => {
-                    clearTimeout(timeoutId)
-                }
-            }
-       
-          
-    }, [term])
+    },[debouncedTerm]) // this hook is initially render whenever the component runs
+                    //When term changes...this waits until debounced time is updated
 
     const renderedResults = results.map((result) => {
         return(

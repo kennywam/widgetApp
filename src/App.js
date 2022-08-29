@@ -34,7 +34,7 @@ const items = [
     ]
 
  const App = () => {
-    return (
+    return (//temporarily rendering Dropdown component alone
         <div>
             <Dropdown  options ={options} />
         </div>

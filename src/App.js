@@ -2,6 +2,7 @@ import React from "react";
 import Accordion from "./components/Accordion";
 import Search from "./components/Search";
 import Dropdown from "./components/Dropdown";
+import Translate from "./components/Translate";
 
 const items = [
     {
@@ -30,13 +31,35 @@ const items = [
         {
             label: "A Shade of Blue",
             value:"blue"
+        }, 
+        {
+            label: "The color orange",
+            value: 'orange'
         }
     ]
 
  const App = () => {
+    //states
+    //const [selected, setSelected] = React.useState(options[0])
+    // const [showDropdown, setShowDropdown] = React.useState(true);
+
+    // //methods
+    // const handleDropdown = () => {
+    //     setShowDropdown(!showDropdown)
+    // }
+
     return (//temporarily rendering Dropdown component alone
-        <div>
-            <Dropdown  options ={options} />
+    <div>
+            {/* <button onClick={handleDropdown}>Toggle Dropdown</button>
+        {
+            showDropdown ?
+                <Dropdown 
+                    selected={selected} 
+                    onSelectedChange ={setSelected}
+                    options ={options} 
+                /> : null
+                } */}
+                <Translate />
         </div>
         )
 }
